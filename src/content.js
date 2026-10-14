@@ -74,7 +74,7 @@ export const experience = [
     'Infiltra Technologies Pvt. Ltd.',
     'Founder & Director',
     '2017 – Present',
-    'Founded an AI and EdTech company in Chennai. Originated SPIA (School Plus Info App), which evolved into the INFAGENT AI learning platform. Strategic and advisory role since 2022.',
+    'Founded an AI and EdTech company in Chennai. Originated SPIA (School Plus Info App), which evolved into the INFAGENT AI learning platform. Infiltra Technologies is a member of the Confederation of Indian Industry (CII). Strategic and advisory role since 2022.',
   ],
   [
     '🏗️',
