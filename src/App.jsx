@@ -1,4 +1,6 @@
 import { motion } from 'framer-motion'
+import TypeRotator from './TypeRotator.jsx'
+import CountUp from './CountUp.jsx'
 import { hero, stats, about, expertise, experience, research, patents, awards, contact, links } from './content.js'
 
 const NAV = [
@@ -17,6 +19,10 @@ export default function App() {
       <style>{`
         @keyframes float { 0%,100% { transform: translateY(0px); } 50% { transform: translateY(-10px); } }
         .float { animation: float 5s ease-in-out infinite; }
+        .type-rotator { display: block; white-space: nowrap; }
+        .type-text { background: linear-gradient(90deg,#22d3ee,#a855f7); -webkit-background-clip: text; background-clip: text; color: transparent; }
+        .type-caret { display: inline-block; width: 3px; height: .95em; margin-left: 4px; vertical-align: -0.1em; background: #a855f7; border-radius: 2px; animation: caret 1s steps(1) infinite; }
+        @keyframes caret { 50% { opacity: 0; } }
         .hover-card { transition: all .35s ease; }
         .hover-card:hover { transform: translateY(-8px); border-color: rgba(34,211,238,.42) !important; }
         html { scroll-behavior: smooth; }
@@ -28,6 +34,7 @@ export default function App() {
         }
         @media (prefers-reduced-motion: reduce) {
           .float { animation: none; }
+          .type-caret { animation: none; }
           .hover-card:hover { transform: none; }
           html { scroll-behavior: auto; }
         }
@@ -47,6 +54,10 @@ export default function App() {
         <div style={G.heroGrid} className="hero-grid">
           <div>
             <h1 style={G.h1}>{hero.firstName} <br />{hero.lastName}</h1>
+            <p style={G.typeLine}>
+              {hero.typingLead}{' '}
+              <TypeRotator phrases={hero.typingPhrases} />
+            </p>
             <p style={G.role}>{hero.role}</p>
             <p style={G.subtitle}>{hero.subtitle}</p>
             <div style={G.actions}>
@@ -66,7 +77,7 @@ export default function App() {
             <div key={label} style={G.statCard} className="hover-card">
               <div style={G.statIcon}>{icon}</div>
               <div>
-                <h3 style={G.statNum}>{num}</h3>
+                <h3 style={G.statNum}><CountUp value={num} /></h3>
                 <p style={G.statLabel}>{label}</p>
               </div>
             </div>
@@ -180,14 +191,15 @@ const cardBg = 'linear-gradient(180deg,rgba(15,23,42,.96),rgba(15,23,42,.72))'
 
 const G = {
   page: { background: 'radial-gradient(circle at top left,#164e63 0%,transparent 30%), radial-gradient(circle at top right,#4c1d95 0%,transparent 28%), #020617', minHeight: '100vh', color: 'white', fontFamily: 'Inter, Arial, sans-serif', overflowX: 'hidden' },
-  nav: { position: 'sticky', top: 0, zIndex: 50, width: '100%', padding: '20px 32px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: 'rgba(2,6,23,.76)', backdropFilter: 'blur(16px)', borderBottom: '1px solid rgba(255,255,255,.08)', boxSizing: 'border-box' },
+  nav: { position: 'sticky', top: 0, zIndex: 50, width: '100%', padding: '20px max(20px, calc((100% - 1600px) / 2))', display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: 'rgba(2,6,23,.76)', backdropFilter: 'blur(16px)', borderBottom: '1px solid rgba(255,255,255,.08)', boxSizing: 'border-box' },
   logo: { width: 62, height: 62, borderRadius: 18, background: grad, color: '#020617', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 900, fontSize: 24 },
   links: { display: 'flex', gap: 30, alignItems: 'center' },
   link: { color: '#e2e8f0', textDecoration: 'none', fontWeight: 800, fontSize: 17 },
-  hero: { width: '100%', maxWidth: 1280, margin: '0 auto', padding: '76px 20px 72px', boxSizing: 'border-box' },
+  hero: { width: 'min(1600px, calc(100% - 40px))', margin: '0 auto', padding: '76px 0 72px', boxSizing: 'border-box' },
   badge: { display: 'inline-block', padding: '12px 22px', borderRadius: 999, border: '1px solid rgba(34,211,238,.45)', color: '#67e8f9', background: 'rgba(8,47,73,.44)', fontSize: 14, letterSpacing: 3, fontWeight: 900 },
   heroGrid: { display: 'grid', gridTemplateColumns: 'minmax(0, 1.1fr) minmax(280px, .9fr)', gap: 36, alignItems: 'center', marginTop: 30 },
   h1: { fontSize: 'clamp(44px,6vw,86px)', lineHeight: 0.95, margin: '10px 0 22px', letterSpacing: '-3px' },
+  typeLine: { fontSize: 'clamp(24px,3vw,38px)', fontWeight: 800, lineHeight: 1.25, margin: '0 0 18px', minHeight: '2.6em', color: '#f8fafc', letterSpacing: '-0.5px' },
   role: { color: '#67e8f9', fontSize: 'clamp(19px,2.2vw,26px)', fontWeight: 900, lineHeight: 1.4 },
   subtitle: { maxWidth: 760, color: '#cbd5e1', fontSize: 'clamp(17px,1.8vw,22px)', lineHeight: 1.7 },
   actions: { display: 'flex', gap: 18, flexWrap: 'wrap', marginTop: 36 },
@@ -195,19 +207,19 @@ const G = {
   secondaryBtn: { display: 'inline-block', padding: '18px 28px', borderRadius: 16, border: '1px solid rgba(255,255,255,.22)', background: 'rgba(255,255,255,.06)', color: 'white', textDecoration: 'none', fontWeight: 900, fontSize: 17 },
   ghostBtn: { display: 'inline-block', padding: '18px 28px', borderRadius: 16, color: '#67e8f9', textDecoration: 'none', fontWeight: 900, fontSize: 17 },
   profileWrapper: { position: 'relative', display: 'flex', justifyContent: 'center', alignItems: 'center' },
-  profileGlow: { position: 'absolute', width: 'min(430px, 100%)', aspectRatio: '1', borderRadius: '50%', background: 'radial-gradient(circle,rgba(34,211,238,.25),rgba(168,85,247,.13),transparent 70%)', filter: 'blur(18px)' },
-  profileImage: { position: 'relative', width: '100%', maxWidth: 360, height: 'auto', aspectRatio: '4 / 5', objectFit: 'cover', objectPosition: 'center top', borderRadius: 34, border: '2px solid rgba(255,255,255,.14)', boxShadow: '0 30px 90px rgba(0,0,0,.5)' },
+  profileGlow: { position: 'absolute', width: 'min(560px, 100%)', aspectRatio: '1', borderRadius: '50%', background: 'radial-gradient(circle,rgba(34,211,238,.25),rgba(168,85,247,.13),transparent 70%)', filter: 'blur(18px)' },
+  profileImage: { position: 'relative', width: '100%', maxWidth: 'clamp(320px, 26vw, 460px)', height: 'auto', aspectRatio: '4 / 5', objectFit: 'cover', objectPosition: 'center top', borderRadius: 34, border: '2px solid rgba(255,255,255,.14)', boxShadow: '0 30px 90px rgba(0,0,0,.5)' },
   stats: { display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(min(210px,100%),1fr))', gap: 22, marginTop: 58 },
   statCard: { display: 'flex', alignItems: 'center', gap: 18, padding: 24, borderRadius: 22, background: 'rgba(15,23,42,.8)', border: '1px solid rgba(255,255,255,.1)' },
   statIcon: { fontSize: 32 },
   statNum: { fontSize: 'clamp(22px,2vw,28px)', lineHeight: 1.2, color: 'white', margin: 0 },
   statLabel: { color: '#cbd5e1', marginTop: 6, marginBottom: 0 },
-  section: { width: '100%', maxWidth: 1200, margin: '0 auto', padding: '70px 20px', boxSizing: 'border-box' },
+  section: { width: 'min(1600px, calc(100% - 40px))', margin: '0 auto', padding: '70px 0', boxSizing: 'border-box' },
   kicker: { color: '#67e8f9', textTransform: 'uppercase', letterSpacing: 2.4, fontSize: 13, fontWeight: 900 },
   h2: { fontSize: 'clamp(32px,5vw,58px)', lineHeight: 1.08, margin: '16px 0 26px', letterSpacing: '-2px' },
-  text: { maxWidth: 860, color: '#cbd5e1', fontSize: 'clamp(17px,1.6vw,20px)', lineHeight: 1.75 },
-  grid: { display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(min(320px,100%),1fr))', gap: 22, marginTop: 32 },
-  gridTwo: { display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(min(460px,100%),1fr))', gap: 28, marginTop: 36 },
+  text: { maxWidth: 1000, color: '#cbd5e1', fontSize: 'clamp(17px,1.6vw,20px)', lineHeight: 1.75 },
+  grid: { display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(min(100%, max(320px, calc((100% - 44px) / 3))),1fr))', gap: 22, marginTop: 32 },
+  gridTwo: { display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(min(100%, max(460px, calc((100% - 28px) / 2))),1fr))', gap: 28, marginTop: 36 },
   card: { padding: 26, borderRadius: 24, background: cardBg, border: '1px solid rgba(255,255,255,.08)', minHeight: 300, display: 'flex', flexDirection: 'column', justifyContent: 'space-between', boxSizing: 'border-box' },
   bigCard: { display: 'grid', gridTemplateColumns: '90px 1fr', gap: 24, padding: 34, borderRadius: 28, background: cardBg, border: '1px solid rgba(34,211,238,.18)', boxSizing: 'border-box' },
   expIcon: { width: 74, height: 74, borderRadius: '50%', background: 'rgba(34,211,238,.10)', border: '1px solid rgba(34,211,238,.35)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 34 },
@@ -220,9 +232,9 @@ const G = {
   tag: { padding: '6px 12px', borderRadius: 999, background: 'rgba(34,211,238,.10)', border: '1px solid rgba(34,211,238,.16)', color: '#67e8f9', fontSize: 12, fontWeight: 700 },
   list: { display: 'grid', gap: 16, marginTop: 34 },
   listItem: { padding: 22, borderRadius: 18, background: 'rgba(15,23,42,.82)', border: '1px solid rgba(255,255,255,.08)', color: '#cbd5e1', fontSize: 'clamp(16px,1.5vw,18px)', lineHeight: 1.7 },
-  contact: { maxWidth: 1180, margin: '70px auto', padding: '64px 28px', borderRadius: 34, background: 'linear-gradient(135deg,rgba(34,211,238,.14),rgba(168,85,247,.14))', border: '1px solid rgba(255,255,255,.12)', boxSizing: 'border-box', width: 'calc(100% - 32px)' },
+  contact: { maxWidth: 1600, margin: '70px auto', padding: '64px 28px', borderRadius: 34, background: 'linear-gradient(135deg,rgba(34,211,238,.14),rgba(168,85,247,.14))', border: '1px solid rgba(255,255,255,.12)', boxSizing: 'border-box', width: 'calc(100% - 32px)' },
   footer: { marginTop: 100, borderTop: '1px solid rgba(255,255,255,.08)', background: 'rgba(2,6,23,.95)' },
-  footerContent: { maxWidth: 1200, margin: '0 auto', padding: '70px 20px', textAlign: 'center' },
+  footerContent: { width: 'min(1600px, calc(100% - 40px))', margin: '0 auto', padding: '70px 0', textAlign: 'center' },
   footerTitle: { fontSize: 'clamp(28px,4vw,42px)', marginBottom: 18, background: grad, WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' },
   footerText: { color: '#94a3b8', fontSize: 'clamp(17px,1.6vw,20px)', lineHeight: 1.8, maxWidth: 760, margin: '0 auto' },
   socials: { display: 'flex', justifyContent: 'center', gap: 18, flexWrap: 'wrap', marginTop: 36 },

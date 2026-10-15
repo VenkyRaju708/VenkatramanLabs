@@ -4,6 +4,8 @@ export const hero = {
   badge: 'AI • RESEARCH • ENTERPRISE PROGRAMS',
   firstName: 'Venkatraman',
   lastName: 'Viswanathan',
+  typingLead: 'Turning research into',
+  typingPhrases: ['Agentic AI Systems', 'Enterprise Intelligence', 'Smarter Classrooms', 'Real-World Impact'],
   role: 'Technical Program Manager • AI Researcher • Founder, Infiltra Technologies',
   subtitle:
     'Technology leader working across enterprise AI, program governance, cloud and ERP transformation, and applied AI research for enterprise and education.',
@@ -11,7 +13,7 @@ export const hero = {
 
 export const stats = [
   ['💼', '19+', 'Years Experience'],
-  ['🔍', 'IEEE · Springer', 'Journal Peer Reviewer'],
+  ['📄', '15+', 'Peer-Reviewed Papers'],
   ['🛡️', '3', 'IP Filings (IN · DE · UK)'],
   ['🏆', '6', 'Awards & Honors'],
 ]
